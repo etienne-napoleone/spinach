@@ -3,7 +3,7 @@ use std::sync::mpsc::{channel, Sender};
 use std::thread;
 use std::time::Duration;
 
-use crate::console;
+use crate::term;
 
 pub struct Spinner {
     pub frames: Vec<&'static str>,
@@ -46,14 +46,14 @@ impl Spinner {
 struct Context {
     spinner: Spinner,
     text: &'static str,
-    color: console::Color,
+    color: term::Color,
 }
 
 impl Default for Context {
     fn default() -> Self {
         let spinner = Spinner::default();
         let text = "";
-        let color = console::Color::Ignore;
+        let color = term::Color::Ignore;
         Self {
             spinner,
             text,
@@ -75,7 +75,7 @@ impl Context {
         &mut self,
         spinner_frame: Option<&str>,
         text: Option<&str>,
-        color: Option<console::Color>,
+        color: Option<term::Color>,
     ) {
         let spinner_frame =
             spinner_frame.unwrap_or_else(|| self.spinner.next().unwrap_or_default());
@@ -84,16 +84,16 @@ impl Context {
         Self::print(spinner_frame, text, &color);
     }
 
-    fn print(spinner_frame: &str, text: &str, color: &console::Color) {
-        console::delete_line();
+    fn print(spinner_frame: &str, text: &str, color: &term::Color) {
+        term::delete_line();
         print!(
             "\r{}{}{} {}",
-            console::color(color).unwrap_or_default(),
+            term::color(color).unwrap_or_default(),
             spinner_frame,
-            console::color(&console::Color::Reset).unwrap_or_default(),
+            term::color(&term::Color::Reset).unwrap_or_default(),
             text,
         );
-        console::flush();
+        term::flush();
     }
 }
 
@@ -104,7 +104,7 @@ enum SpinnerCommand {
     Stop {
         symbol: Option<&'static str>,
         text: Option<&'static str>,
-        color: Option<console::Color>,
+        color: Option<term::Color>,
     },
 }
 
@@ -116,18 +116,18 @@ pub struct Spinach {
 impl Spinach {
     pub fn new(text: &'static str) -> Self {
         let spinner = Spinner::default();
-        Self::run(spinner, text, console::Color::Cyan)
+        Self::run(spinner, text, term::Color::Cyan)
     }
 
     pub fn with_spinner(spinner: Spinner, text: &'static str) -> Self {
-        Self::run(spinner, text, console::Color::Cyan)
+        Self::run(spinner, text, term::Color::Cyan)
     }
 
     pub fn stop(
         self,
         symbol: Option<&'static str>,
         text: Option<&'static str>,
-        color: Option<console::Color>,
+        color: Option<term::Color>,
     ) {
         self.sender
             .send(SpinnerCommand::Stop {
@@ -140,19 +140,19 @@ impl Spinach {
     }
 
     pub fn succeed(self, text: &'static str) {
-        self.stop(Some("✔"), Some(text), Some(console::Color::Green));
+        self.stop(Some("✔"), Some(text), Some(term::Color::Green));
     }
 
     pub fn fail(self, text: &'static str) {
-        self.stop(Some("✖"), Some(text), Some(console::Color::Red));
+        self.stop(Some("✖"), Some(text), Some(term::Color::Red));
     }
 
     pub fn warn(self, text: &'static str) {
-        self.stop(Some("⚠"), Some(text), Some(console::Color::Yellow));
+        self.stop(Some("⚠"), Some(text), Some(term::Color::Yellow));
     }
 
     pub fn info(self, text: &'static str) {
-        self.stop(Some("ℹ"), Some(text), Some(console::Color::Blue));
+        self.stop(Some("ℹ"), Some(text), Some(term::Color::Blue));
     }
 
     pub fn text(&self, text: &'static str) {
@@ -161,8 +161,8 @@ impl Spinach {
             .expect("Could not update spinner.");
     }
 
-    fn run(config: Spinner, text: &'static str, color: console::Color) -> Self {
-        console::hide_cursor();
+    fn run(config: Spinner, text: &'static str, color: term::Color) -> Self {
+        term::hide_cursor();
 
         let (sender, receiver) = channel::<SpinnerCommand>();
 
@@ -181,14 +181,14 @@ impl Spinach {
                     color,
                 }) => {
                     context.render_with_override(symbol, text, color);
-                    console::new_line();
-                    console::show_cursor();
+                    term::new_line();
+                    term::show_cursor();
                     break;
                 }
                 Err(TryRecvError::Disconnected) => {
                     context.render();
-                    console::new_line();
-                    console::show_cursor();
+                    term::new_line();
+                    term::show_cursor();
                     break;
                 }
                 _ => (),

@@ -1,6 +1,6 @@
-pub use console::Color;
 pub use spinner::Spinach;
 pub use spinner::Spinner;
+pub use term::Color;
 
-mod console;
 mod spinner;
+mod term;
