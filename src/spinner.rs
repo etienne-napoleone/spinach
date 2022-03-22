@@ -5,17 +5,12 @@ use std::time::Duration;
 
 use crate::console;
 
-pub struct Spinach {
-    sender: Sender<SpinnerCommand>,
-    handle: thread::JoinHandle<()>,
+pub struct SpinnerData {
+    pub frames: Vec<&'static str>,
+    pub interval: u64,
 }
 
-struct SpinnerConfig {
-    frames: Vec<&'static str>,
-    interval: u64,
-}
-
-impl Default for SpinnerConfig {
+impl Default for SpinnerData {
     fn default() -> Self {
         let frames = vec!["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
         let interval = 80;
@@ -24,7 +19,7 @@ impl Default for SpinnerConfig {
 }
 
 struct Spinner {
-    config: SpinnerConfig,
+    config: SpinnerData,
     text: &'static str,
     position: usize,
 }
@@ -64,9 +59,18 @@ enum SpinnerCommand {
     },
 }
 
+pub struct Spinach {
+    sender: Sender<SpinnerCommand>,
+    handle: thread::JoinHandle<()>,
+}
+
 impl Spinach {
     pub fn new(text: &'static str) -> Self {
-        let spinner = SpinnerConfig::default();
+        let spinner = SpinnerData::default();
+        Self::run(spinner, text)
+    }
+
+    pub fn with_spinner(spinner: SpinnerData, text: &'static str) -> Self {
         Self::run(spinner, text)
     }
 
@@ -99,7 +103,7 @@ impl Spinach {
             .expect("Could not update spinner.");
     }
 
-    fn run(config: SpinnerConfig, text: &'static str) -> Self {
+    fn run(config: SpinnerData, text: &'static str) -> Self {
         console::hide_cursor();
 
         let (sender, receiver) = channel::<SpinnerCommand>();

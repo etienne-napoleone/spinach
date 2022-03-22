@@ -1,4 +1,5 @@
-pub use spinach::Spinach;
+pub use spinner::Spinach;
+pub use spinner::SpinnerData;
 
 mod console;
-mod spinach;
+mod spinner;
