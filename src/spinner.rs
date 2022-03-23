@@ -94,7 +94,8 @@ impl Context {
 
 pub(crate) enum SpinnerCommand {
     Update {
-        text: &'static str,
+        text: Option<&'static str>,
+        color: Option<term::Color>,
     },
     Stop {
         symbol: Option<&'static str>,

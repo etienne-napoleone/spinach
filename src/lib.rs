@@ -16,11 +16,6 @@ pub struct Spinach {
 }
 
 impl Spinach {
-    pub fn new(text: &'static str) -> Self {
-        let spinner = Spinner::default();
-        Self::run(spinner, text, term::Color::Cyan)
-    }
-
     pub fn new_with(
         spinner: Option<Spinner>,
         text: Option<&'static str>,
@@ -33,15 +28,23 @@ impl Spinach {
         )
     }
 
-    pub fn stop(self) {
+    pub fn new(text: &'static str) -> Self {
+        let spinner = Spinner::default();
+        Self::run(spinner, text, term::Color::Cyan)
+    }
+
+    pub fn update_with(&self, text: Option<&'static str>, color: Option<term::Color>) {
         self.sender
-            .send(SpinnerCommand::Stop {
-                symbol: None,
-                text: None,
-                color: None,
-            })
-            .expect("Could not stop spinner.");
-        self.handle.join().unwrap();
+            .send(SpinnerCommand::Update { text, color })
+            .expect("Could not update spinner.");
+    }
+
+    pub fn text(&self, text: &'static str) {
+        self.update_with(Some(text), None);
+    }
+
+    pub fn color(&self, color: term::Color) {
+        self.update_with(None, Some(color));
     }
 
     pub fn stop_with(
@@ -60,6 +63,10 @@ impl Spinach {
         self.handle.join().unwrap();
     }
 
+    pub fn stop(self) {
+        self.stop_with(None, None, None);
+    }
+
     pub fn succeed(self, text: Option<&'static str>) {
         self.stop_with(Some("✔"), text, Some(term::Color::Green));
     }
@@ -76,12 +83,6 @@ impl Spinach {
         self.stop_with(Some("ℹ"), text, Some(term::Color::Blue));
     }
 
-    pub fn text(&self, text: &'static str) {
-        self.sender
-            .send(SpinnerCommand::Update { text })
-            .expect("Could not update spinner.");
-    }
-
     fn run(config: Spinner, text: &'static str, color: term::Color) -> Self {
         term::hide_cursor();
 
@@ -95,7 +96,14 @@ impl Spinach {
 
         let handle = thread::spawn(move || loop {
             match receiver.try_recv() {
-                Ok(SpinnerCommand::Update { text }) => context.text = text,
+                Ok(SpinnerCommand::Update { text, color }) => {
+                    if let Some(text) = text {
+                        context.text = text;
+                    }
+                    if let Some(color) = color {
+                        context.color = color;
+                    }
+                }
                 Ok(SpinnerCommand::Stop {
                     symbol,
                     text,
