@@ -8,7 +8,7 @@ documentation = "https://docs.rs/spinach"
 readme = "README.md"
 repository = "https://github.com/etienne-napoleone/spinach"
 license-file = "LICENSE"
-keywords = ["spinner", "terminal-ui", "spin", "loader", "cli", "terminal"]
+keywords = ["spinner", "terminal-ui", "loader", "cli", "terminal"]
 categories = ["command-line-interface"]
 exclude = ["assets/"]
 
