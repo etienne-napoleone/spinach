@@ -1,7 +1,16 @@
 [package]
 name = "spinach"
 version = "0.1.0"
+authors = ["Etienne Napoleone <etienne.napoleone@gmail.com>"]
 edition = "2021"
+description = "Practical spinner for Rust"
+documentation = "https://docs.rs/spinach"
+readme = "README.md"
+repository = "https://github.com/etienne-napoleone/spinach"
+license-file = "LICENSE"
+keywords = ["spinner", "terminal-ui", "spin", "loader", "cli", "terminal"]
+categories = ["command-line-interface"]
+exclude = ["assets/"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
