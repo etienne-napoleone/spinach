@@ -1,9 +1,13 @@
 # 🥬 spinach
 
+<a href="https://crates.io/crates/spinach"><img alt="crates.io" src="https://img.shields.io/crates/v/spinach"></a>
+<a href="https://docs.rs/spinach"><img alt="docs.rs" src="https://img.shields.io/docsrs/spinach"></a>
+<a href="LICENSE"><img alt="license" src="https://img.shields.io/crates/l/spinach"></a>
+
 > Practical spinner for Rust 
 
 <p align="center">
-	<img src="assets/screenshot.png" width="399px">
+	<img src="https://github.com/etienne-napoleone/spinach/blob/main/assets/screenshot.png" width="550px" height="399px">
 </p>
 
 ## Install
