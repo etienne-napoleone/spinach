@@ -98,3 +98,10 @@ s.stop_with(Some("🥬"), Some("spinach'd"), Some(Color::Ignore));
 // Also with partial update (keep current)
 s.stop_with(None, None, Some(Color::Blue));
 ```
+
+## Related
+
+Inspired by:
+
+- [ora](https://github.com/sindresorhus/ora)
+- [spinners](https://github.com/FGRibreau/spinners)
