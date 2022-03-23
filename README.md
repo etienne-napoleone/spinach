@@ -1,8 +1,9 @@
 # 🥬 spinach
 
-<a href="https://crates.io/crates/spinach"><img alt="crates.io" src="https://img.shields.io/crates/v/spinach"></a>
-<a href="https://docs.rs/spinach"><img alt="docs.rs" src="https://img.shields.io/docsrs/spinach"></a>
-<a href="LICENSE"><img alt="license" src="https://img.shields.io/crates/l/spinach"></a>
+[![Crates.io](https://img.shields.io/crates/v/spinach)](https://crates.io/crates/spinach)
+[![Docs.rs](https://img.shields.io/docsrs/spinach)](https://docs.rs/spinach)
+[![License](https://img.shields.io/crates/l/spinach)](LICENSE)
+[![CI](https://github.com/etienne-napoleone/spinach/actions/workflows/ci.yml/badge.svg)](https://github.com/etienne-napoleone/spinach/actions/workflows/ci.yml)
 
 > Practical spinner for Rust 
 
