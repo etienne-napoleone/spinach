@@ -21,11 +21,30 @@ impl Spinach {
         Self::run(spinner, text, term::Color::Cyan)
     }
 
-    pub fn with_spinner(spinner: Spinner, text: &'static str) -> Self {
-        Self::run(spinner, text, term::Color::Cyan)
+    pub fn new_with(
+        spinner: Option<Spinner>,
+        text: Option<&'static str>,
+        color: Option<term::Color>,
+    ) -> Self {
+        Self::run(
+            spinner.unwrap_or_default(),
+            text.unwrap_or_default(),
+            color.unwrap_or_default(),
+        )
     }
 
-    pub fn stop(
+    pub fn stop(self) {
+        self.sender
+            .send(SpinnerCommand::Stop {
+                symbol: None,
+                text: None,
+                color: None,
+            })
+            .expect("Could not stop spinner.");
+        self.handle.join().unwrap();
+    }
+
+    pub fn stop_with(
         self,
         symbol: Option<&'static str>,
         text: Option<&'static str>,
@@ -41,20 +60,20 @@ impl Spinach {
         self.handle.join().unwrap();
     }
 
-    pub fn succeed(self, text: &'static str) {
-        self.stop(Some("✔"), Some(text), Some(term::Color::Green));
+    pub fn succeed(self, text: Option<&'static str>) {
+        self.stop_with(Some("✔"), text, Some(term::Color::Green));
     }
 
-    pub fn fail(self, text: &'static str) {
-        self.stop(Some("✖"), Some(text), Some(term::Color::Red));
+    pub fn fail(self, text: Option<&'static str>) {
+        self.stop_with(Some("✖"), text, Some(term::Color::Red));
     }
 
-    pub fn warn(self, text: &'static str) {
-        self.stop(Some("⚠"), Some(text), Some(term::Color::Yellow));
+    pub fn warn(self, text: Option<&'static str>) {
+        self.stop_with(Some("⚠"), text, Some(term::Color::Yellow));
     }
 
-    pub fn info(self, text: &'static str) {
-        self.stop(Some("ℹ"), Some(text), Some(term::Color::Blue));
+    pub fn info(self, text: Option<&'static str>) {
+        self.stop_with(Some("ℹ"), text, Some(term::Color::Blue));
     }
 
     pub fn text(&self, text: &'static str) {

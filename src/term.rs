@@ -41,7 +41,7 @@ pub fn new_line() {
     println!()
 }
 
-pub fn color(color: &Color) -> Option<String> {
+pub(crate) fn color(color: &Color) -> Option<String> {
     match color {
         Color::Ignore => None,
         Color::Reset => Some(ansi_color(0)),

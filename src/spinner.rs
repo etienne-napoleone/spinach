@@ -38,7 +38,7 @@ impl Spinner {
     }
 }
 
-pub struct Context {
+pub(crate) struct Context {
     pub spinner: Spinner,
     pub text: &'static str,
     pub color: term::Color,
@@ -92,7 +92,7 @@ impl Context {
     }
 }
 
-pub enum SpinnerCommand {
+pub(crate) enum SpinnerCommand {
     Update {
         text: &'static str,
     },
