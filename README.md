@@ -2,7 +2,7 @@
 
 [![Crates.io](https://img.shields.io/crates/v/spinach)](https://crates.io/crates/spinach)
 [![Docs.rs](https://img.shields.io/docsrs/spinach)](https://docs.rs/spinach)
-[![License](https://img.shields.io/crates/l/spinach)](LICENSE)
+[![License](https://img.shields.io/crates/l/spinach/1.0.1)](LICENSE)
 [![CI](https://github.com/etienne-napoleone/spinach/actions/workflows/ci.yml/badge.svg)](https://github.com/etienne-napoleone/spinach/actions/workflows/ci.yml)
 
 > Practical spinner for Rust 
