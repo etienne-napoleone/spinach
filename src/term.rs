@@ -1,6 +1,6 @@
 use std::io::{stdout, Write};
 
-/// Enum of colors supported by spinach.
+/// Spinach supported color enum.
 #[derive(Clone)]
 pub enum Color {
     Ignore,
