@@ -19,7 +19,7 @@ mod term;
 ///
 /// let s = Spinach::new("Cutting spinaches");
 /// // do something long
-/// s.succeed(Some("Cut spinaches"));
+/// s.succeed("Cut spinaches");
 /// ```
 pub struct Spinach {
     sender: Sender<SpinnerCommand>,
@@ -43,17 +43,21 @@ impl Spinach {
     /// use spinach::{Color, Spinach, Spinner};
     ///
     /// let spinner = Spinner::new(vec!["uno", "dos", "tres"], 80);
-    /// let s = Spinach::new_with(Some(spinner), Some("hey hey"), Some(Color::Yellow));
+    /// let s = Spinach::new_with(spinner, "hey hey", Color::Yellow);
     /// ```
-    pub fn new_with(
-        spinner: Option<Spinner>,
-        text: Option<&'static str>,
-        color: Option<term::Color>,
+    pub fn new_with<
+        A: Into<Option<Spinner>>,
+        B: Into<Option<&'static str>>,
+        C: Into<Option<term::Color>>,
+    >(
+        spinner: A,
+        text: B,
+        color: C,
     ) -> Self {
         Self::run(
-            spinner.unwrap_or_default(),
-            text.unwrap_or_default(),
-            color.unwrap_or_default(),
+            spinner.into().unwrap_or_default(),
+            text.into().unwrap_or_default(),
+            color.into().unwrap_or_default(),
         )
     }
 
@@ -90,10 +94,17 @@ impl Spinach {
     /// use spinach::{Color, Spinach};
     ///
     /// let s = Spinach::new("hey hey");
-    /// s.update_with(None, Some(Color::Red));
-    pub fn update_with(&self, text: Option<&'static str>, color: Option<term::Color>) {
+    /// s.update_with(None, Color::Red);
+    pub fn update_with<A: Into<Option<&'static str>>, B: Into<Option<term::Color>>>(
+        &self,
+        text: A,
+        color: B,
+    ) {
         self.sender
-            .send(SpinnerCommand::Update { text, color })
+            .send(SpinnerCommand::Update {
+                text: text.into(),
+                color: color.into(),
+            })
             .expect("Could not update spinner.");
     }
 
@@ -112,7 +123,7 @@ impl Spinach {
     /// s.text("hi hi");
     /// ```
     pub fn text(&self, text: &'static str) {
-        self.update_with(Some(text), None);
+        self.update_with(text, None);
     }
 
     /// Update spinach spinner color
@@ -130,7 +141,7 @@ impl Spinach {
     /// s.color(Color::Red);
     /// ```
     pub fn color(&self, color: term::Color) {
-        self.update_with(None, Some(color));
+        self.update_with(None, color);
     }
 
     /// Stop spinach spinner with passed optional configurations.
@@ -149,19 +160,23 @@ impl Spinach {
     /// use spinach::{Color, Spinach};
     ///
     /// let s = Spinach::new("hey hey");
-    /// s.stop_with(Some("✔"), None, Some(Color::Green));
+    /// s.stop_with("✔", None, Color::Green);
     /// ```
-    pub fn stop_with(
+    pub fn stop_with<
+        A: Into<Option<&'static str>>,
+        B: Into<Option<&'static str>>,
+        C: Into<Option<term::Color>>,
+    >(
         self,
-        symbol: Option<&'static str>,
-        text: Option<&'static str>,
-        color: Option<term::Color>,
+        symbol: A,
+        text: B,
+        color: C,
     ) {
         self.sender
             .send(SpinnerCommand::Stop {
-                symbol,
-                text,
-                color,
+                symbol: symbol.into(),
+                text: text.into(),
+                color: color.into(),
             })
             .expect("Could not stop spinner.");
         self.handle.join().unwrap();
@@ -198,10 +213,10 @@ impl Spinach {
     /// use spinach::Spinach;
     ///
     /// let s = Spinach::new("hey hey");
-    /// s.succeed(Some("ok"));
+    /// s.succeed("ok");
     /// ```
-    pub fn succeed(self, text: Option<&'static str>) {
-        self.stop_with(Some("✔"), text, Some(term::Color::Green));
+    pub fn succeed<A: Into<Option<&'static str>>>(self, text: A) {
+        self.stop_with("✔", text, term::Color::Green);
     }
 
     /// Stop spinach spinner with final `✖` frame and red color.
@@ -218,10 +233,10 @@ impl Spinach {
     /// use spinach::Spinach;
     ///
     /// let s = Spinach::new("hey hey");
-    /// s.fail(Some("nok"));
+    /// s.fail("nok");
     /// ```
-    pub fn fail(self, text: Option<&'static str>) {
-        self.stop_with(Some("✖"), text, Some(term::Color::Red));
+    pub fn fail<A: Into<Option<&'static str>>>(self, text: A) {
+        self.stop_with("✖", text, term::Color::Red);
     }
 
     /// Stop spinach spinner with final `⚠` frame and yellow color.
@@ -238,10 +253,10 @@ impl Spinach {
     /// use spinach::Spinach;
     ///
     /// let s = Spinach::new("hey hey");
-    /// s.warn(Some("warning"));
+    /// s.warn("warning");
     /// ```
-    pub fn warn(self, text: Option<&'static str>) {
-        self.stop_with(Some("⚠"), text, Some(term::Color::Yellow));
+    pub fn warn<A: Into<Option<&'static str>>>(self, text: A) {
+        self.stop_with("⚠", text, term::Color::Yellow);
     }
 
     /// Stop spinach spinner with final `ℹ` frame and blue color.
@@ -258,10 +273,10 @@ impl Spinach {
     /// use spinach::Spinach;
     ///
     /// let s = Spinach::new("hey hey");
-    /// s.info(Some("done"));
+    /// s.info("done");
     /// ```
-    pub fn info(self, text: Option<&'static str>) {
-        self.stop_with(Some("ℹ"), text, Some(term::Color::Blue));
+    pub fn info<A: Into<Option<&'static str>>>(self, text: A) {
+        self.stop_with("ℹ", text, term::Color::Blue);
     }
 
     fn run(config: Spinner, text: &'static str, color: term::Color) -> Self {
