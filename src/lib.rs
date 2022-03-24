@@ -2,11 +2,12 @@ use std::sync::mpsc::{channel, Sender, TryRecvError};
 use std::thread;
 use std::time::Duration;
 
-use spinner::{Context, SpinnerCommand};
+use crate::context::Context;
 
-pub use spinner::Spinner;
-pub use term::Color;
+pub use crate::spinner::Spinner;
+pub use crate::term::Color;
 
+mod context;
 mod spinner;
 mod term;
 
@@ -325,4 +326,15 @@ impl Spinach {
 
         Self { sender, handle }
     }
+}
+enum SpinnerCommand {
+    Update {
+        text: Option<&'static str>,
+        color: Option<term::Color>,
+    },
+    Stop {
+        symbol: Option<&'static str>,
+        text: Option<&'static str>,
+        color: Option<term::Color>,
+    },
 }
