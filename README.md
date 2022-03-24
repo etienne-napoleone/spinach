@@ -33,9 +33,11 @@ use spinach::Spinach;
 fn main() {
     let s = Spinach::new("Running task 1");
     sleep(Duration::from_secs(1));
+
     s.text("Running task 2");
     sleep(Duration::from_secs(1));
-    s.succeed(Some("Ran tasks successfully"));
+
+    s.succeed("Ran tasks successfully");
 }
 ```
 
@@ -49,10 +51,10 @@ let s = Spinach::new("custom text");
 
 // Using custom spinner
 let spinner = Spinner::new(vec!["▮","▯"], 80);
-let s = Spinach::new_with(Some(spinner), Some("custom text"), Some(Color::Red));
+let s = Spinach::new_with(spinner, "custom text", Color::Red));
 
 // Also with partial config (fallback to defaults)
-let s = Spinach::new_with(None, Some("custom text"), Some(Color::Green));
+let s = Spinach::new_with(None, "custom text", Color::Green);
 ```
 
 ### Updating
@@ -69,10 +71,10 @@ s.text("new text");
 s.color(Color::White);
 
 // Updating multiple
-s.update_with(Some("new text"), Some(Color::Red));
+s.update_with("new text", Color::Red);
 
 // Also with partial update (keep current)
-s.update_with(None, Some(Color::Red));
+s.update_with(None, Color::Red);
 ```
 
 ### Stopping
@@ -83,10 +85,10 @@ use spinach::{Color, Spinach};
 let s = Spinach::new("custom text");
 
 // Stop with final `✔` frame, green color and optional text change.
-s.success(Some("gg"));
+s.success("gg");
 
 // Stop with final `✖` frame, red color and optional text change.
-s.fail(Some(":("));
+s.fail("ups");
 
 // Stop with final `⚠` frame, yellow color and optional text change.
 s.warn(None);
@@ -98,10 +100,10 @@ s.info("notice");
 s.stop();
 
 // Stopping with custom final frame, text and color
-s.stop_with(Some("🥬"), Some("spinach'd"), Some(Color::Ignore));
+s.stop_with("🥬", "spinach'd", Color::Ignore);
 
 // Also with partial update (keep current)
-s.stop_with(None, None, Some(Color::Blue));
+s.stop_with(None, None, Color::Blue);
 ```
 
 ## Related
