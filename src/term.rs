@@ -1,7 +1,7 @@
 use std::io::{stdout, Write};
 
 /// Spinach supported color enum.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Color {
     Ignore,
     Reset,

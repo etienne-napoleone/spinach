@@ -1,4 +1,5 @@
 /// Represent a spinner and its frames.
+#[derive(Clone, Debug)]
 pub struct Spinner {
     /// Vector of frames representing each frame of the animation.
     pub frames: Vec<&'static str>,
