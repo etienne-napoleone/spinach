@@ -9,7 +9,8 @@ pub use crate::term::Color;
 
 mod context;
 mod spinner;
-mod term;
+
+pub mod term;
 
 /// Spinach spinner.
 ///
@@ -327,6 +328,7 @@ impl Spinach {
         Self { sender, handle }
     }
 }
+
 enum SpinnerCommand {
     Update {
         text: Option<&'static str>,

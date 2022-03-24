@@ -106,6 +106,28 @@ s.stop_with("🥬", "spinach'd", Color::Ignore);
 s.stop_with(None, None, Color::Blue);
 ```
 
+## FAQ
+
+### How to avoid leaving terminal without prompt on interupt (ctrl^c)?
+
+You can use a library like [`ctrlc`](https://crates.io/crates/ctrlc) to handle interupts.
+
+The most basic way to handle it would be in conjuction with this lib QoL `show_cursor` function like this:
+
+```rust
+use spinach::{term, Spinach};
+
+fn main() {
+    ctrlc::set_handler(|| {
+        term::show_cursor();
+        std::process::exit(0);
+    })
+    .expect("Error setting Ctrl-C handler");
+
+    let s = Spinach::new("spinnin'");
+    // ...
+```
+
 ## Related
 
 Inspired by:

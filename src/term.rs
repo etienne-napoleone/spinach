@@ -33,7 +33,20 @@ pub(crate) fn hide_cursor() {
     print!("\x1b[?25l")
 }
 
-pub(crate) fn show_cursor() {
+/// Print show cursor ANSI escape code
+///
+/// Can be used when managing ctrl^c/SIGINT to show the cursor back
+///
+/// # Examples
+///
+/// ```
+/// use spinach;
+///
+/// let s = spinach::Spinach::new("Cutting spinaches");
+/// // somehow `s` is droped
+/// spinach::term::show_cursor();
+/// ```
+pub fn show_cursor() {
     print!("\x1b[?25h")
 }
 
