@@ -21,23 +21,23 @@ impl Default for Color {
     }
 }
 
-pub fn flush() {
+pub(crate) fn flush() {
     stdout().flush().unwrap();
 }
 
-pub fn delete_line() {
+pub(crate) fn delete_line() {
     print!("\x1b[2K")
 }
 
-pub fn hide_cursor() {
+pub(crate) fn hide_cursor() {
     print!("\x1b[?25l")
 }
 
-pub fn show_cursor() {
+pub(crate) fn show_cursor() {
     print!("\x1b[?25h")
 }
 
-pub fn new_line() {
+pub(crate) fn new_line() {
     println!()
 }
 
