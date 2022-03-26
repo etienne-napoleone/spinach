@@ -42,7 +42,7 @@ fn main() {
 ```
 
 For general convenience, text can be passed as `String` or `&str`.
-When an `Option`, can be passed as `String`, `&str` or `Option<&str>`
+When an `Option`, can be passed as `String`, `&str` or `Option<String>`
 
 ### Creating
 

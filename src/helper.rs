@@ -19,13 +19,8 @@ impl From<&str> for OptText {
     }
 }
 
-impl From<Option<&str>> for OptText {
-    fn from(option: Option<&str>) -> Self {
-        match option {
-            Some(string_slice) => Self {
-                inner: Some(string_slice.to_string()),
-            },
-            None => Self::default(),
-        }
+impl From<Option<String>> for OptText {
+    fn from(inner: Option<String>) -> Self {
+        Self { inner }
     }
 }
