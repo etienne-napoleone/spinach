@@ -17,7 +17,7 @@ Add as a dependency to your `Cargo.toml`.
 
 ```toml
 [dependencies]
-spinach = "1"
+spinach = "2"
 ```
 
 ## Usage

@@ -1,6 +1,6 @@
 [package]
 name = "spinach"
-version = "1.2.0"
+version = "2.0.0"
 authors = ["Etienne Napoleone <etienne.napoleone@gmail.com>"]
 edition = "2021"
 description = "Practical spinner for Rust"
