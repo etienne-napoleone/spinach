@@ -1,11 +1,6 @@
+#[derive(Default)]
 pub struct OptText {
     pub inner: Option<String>,
-}
-
-impl Default for OptText {
-    fn default() -> Self {
-        Self { inner: None }
-    }
 }
 
 impl From<String> for OptText {
