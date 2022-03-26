@@ -279,6 +279,49 @@ impl Spinach {
         self.stop_with("ℹ", text.into(), term::Color::Blue);
     }
 
+    /// Freeze spinach spinner with passed optional configurations and
+    /// continue on the next line.
+    ///
+    /// # Arguments
+    ///
+    /// When `None`, use current value.
+    ///
+    /// * `frozen_symbol` - Optional symbol used as the spinner's frozen line frame.
+    /// * `frozen_text` - Optional spinner's frozen line text.
+    /// * `frozen_color` - Optional spinner's frozen line spinner color.
+    /// * `text` - Optional spinner new line text.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::{Color, Spinach};
+    ///
+    /// let s = Spinach::new("first task");
+    /// s.freeze("✔", "first task: ok", Color::Green, "second task");
+    /// s.stop_with("✔", "first task: ok", Color::Green);
+    /// ```
+    pub fn freeze<
+        A: Into<Option<&'static str>>,
+        B: Into<OptText>,
+        C: Into<Option<term::Color>>,
+        D: Into<OptText>,
+    >(
+        &self,
+        frozen_symbol: A,
+        frozen_text: B,
+        frozen_color: C,
+        text: D,
+    ) {
+        self.sender
+            .send(SpinnerCommand::Freeze {
+                frozen_symbol: frozen_symbol.into(),
+                frozen_text: frozen_text.into().inner,
+                frozen_color: frozen_color.into(),
+                text: text.into().inner,
+            })
+            .expect("Could not stop spinner.");
+    }
+
     fn run(config: Spinner, text: String, color: term::Color) -> Self {
         term::hide_cursor();
 
@@ -298,6 +341,18 @@ impl Spinach {
                     }
                     if let Some(color) = color {
                         context.color = color;
+                    }
+                }
+                Ok(SpinnerCommand::Freeze {
+                    frozen_symbol,
+                    frozen_text,
+                    frozen_color,
+                    text,
+                }) => {
+                    context.render_with_override(frozen_symbol, frozen_text, frozen_color);
+                    term::new_line();
+                    if let Some(text) = text {
+                        context.text = text;
                     }
                 }
                 Ok(SpinnerCommand::Stop {
@@ -331,6 +386,12 @@ enum SpinnerCommand {
     Update {
         text: Option<String>,
         color: Option<term::Color>,
+    },
+    Freeze {
+        frozen_symbol: Option<&'static str>,
+        frozen_text: Option<String>,
+        frozen_color: Option<term::Color>,
+        text: Option<String>,
     },
     Stop {
         symbol: Option<&'static str>,
