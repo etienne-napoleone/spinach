@@ -41,6 +41,9 @@ fn main() {
 }
 ```
 
+For general convenience, text can be passed as `String` or `&str`.
+When an `Option`, can be passed as `String`, `&str` or `Option<&str>`
+
 ### Creating
 
 ```rust
@@ -104,6 +107,19 @@ s.stop_with("🥬", "spinach'd", Color::Ignore);
 
 // Also with partial update (keep current)
 s.stop_with(None, None, Color::Blue);
+```
+
+### Freezing
+
+Will freeze the current line with passed options and continue on a new line.
+
+```rust
+use spinach::{Color, Spinach};
+
+let s = Spinach::new("Cutting spinaches");
+
+// Similar to `stop_with`, but with an extra argument to change the spinner text.
+s.freeze("🥬", "Spinaches cut", None, "Cutting carottes");
 ```
 
 ## FAQ
