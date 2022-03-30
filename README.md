@@ -8,7 +8,7 @@
 > Practical spinner for Rust 
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/etienne-napoleone/spinach/main/assets/screenshot.png" width="550px" height="399px">
+	<img src="https://raw.githubusercontent.com/christian-oudard/spinach/main/assets/recipe.gif" width="570px" height="177px">
 </p>
 
 ## Install

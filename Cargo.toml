@@ -12,6 +12,4 @@ keywords = ["spinner", "terminal-ui", "loader", "cli", "terminal"]
 categories = ["command-line-interface"]
 exclude = ["assets/"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
