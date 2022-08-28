@@ -5,12 +5,12 @@ use spinach::Spinner;
 
 fn main() {
     let spinner = Spinner::new().text("lol").start();
-    pause();
+    wait();
     spinner.text("kek").update();
-    pause();
+    wait();
     spinner.stop();
 }
 
-fn pause() {
+fn wait() {
     sleep(Duration::from_secs(2));
 }

@@ -2,9 +2,8 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::mpsc::{channel, Sender};
 use std::thread::{self, JoinHandle};
-use std::time::Duration;
 
-use crate::term;
+use crate::renderer::{Command, Renderer, Update};
 
 #[derive(Clone, Default)]
 pub struct Spinner {
@@ -33,31 +32,11 @@ impl Spinner {
     pub fn start(&self) -> Self {
         let (sender, receiver) = channel::<Command>();
 
-        let mut context = Renderer {
-            text: self.update.borrow().clone().text.unwrap_or_default(),
-        };
+        let update = self.update.replace(Update::default());
+        let mut renderer = Renderer::from(update);
 
-        let handle = thread::spawn(move || loop {
-            match receiver.try_recv() {
-                Ok(Command::Update(update)) => context.update_with(update),
-                Ok(Command::Stop(update)) => {
-                    context.update_with(update);
-                    context.render();
-                    term::new_line();
-                    break;
-                }
-                _ => (),
-            }
-
-            context.render();
-
-            thread::sleep(Duration::from_millis(100));
-        });
-
-        let handler = Handler { sender, handle };
-
-        self.handler.replace(Some(handler));
-        self.update.replace(Update::default());
+        let handle = thread::spawn(move || renderer.start(receiver));
+        self.handler.replace(Some(Handler { sender, handle }));
 
         self.clone()
     }
@@ -95,33 +74,4 @@ impl Spinner {
 struct Handler {
     sender: Sender<Command>,
     handle: JoinHandle<()>,
-}
-
-#[derive(Default)]
-struct Renderer {
-    text: String,
-}
-
-impl Renderer {
-    pub fn render(&self) {
-        term::delete_line();
-        print!("\rcolor/frame/color {}", self.text);
-        term::flush();
-    }
-
-    fn update_with(&mut self, update: Update) {
-        if let Some(text) = update.text {
-            self.text = text;
-        }
-    }
-}
-
-enum Command {
-    Update(Update),
-    Stop(Update),
-}
-
-#[derive(Clone, Default)]
-struct Update {
-    text: Option<String>,
 }
