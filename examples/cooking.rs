@@ -1,10 +1,10 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use spinach::Spinner;
+use spinach::Spinach;
 
 fn main() {
-    let spinner = Spinner::new().text("hey").start();
+    let spinner = Spinach::new().text("hey").start();
     wait();
     spinner.text("hi").color("red").update();
     wait();

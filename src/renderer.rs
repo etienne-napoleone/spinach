@@ -2,8 +2,8 @@ use std::sync::mpsc::Receiver;
 use std::thread;
 use std::time::Duration;
 
-use crate::animation::Animation;
 use crate::color::Color;
+use crate::spinner::Animation;
 use crate::term;
 
 #[derive(Default)]
