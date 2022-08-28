@@ -2,6 +2,7 @@ use std::sync::mpsc::Receiver;
 use std::thread;
 use std::time::Duration;
 
+use crate::animation::Animation;
 use crate::color::Color;
 use crate::term;
 
@@ -9,6 +10,7 @@ use crate::term;
 pub(crate) struct Renderer {
     text: String,
     color: Color,
+    animation: Animation,
 }
 
 impl Renderer {
@@ -25,7 +27,7 @@ impl Renderer {
 
             self.render();
 
-            thread::sleep(Duration::from_millis(100));
+            thread::sleep(Duration::from_millis(self.animation.interval));
         }
     }
 
@@ -36,6 +38,9 @@ impl Renderer {
         if let Some(color) = update.color {
             self.color = color;
         }
+        if let Some(animation) = update.animation {
+            self.animation = animation;
+        }
     }
 
     fn stop(&mut self, update: Update) {
@@ -44,9 +49,15 @@ impl Renderer {
         term::new_line();
     }
 
-    fn render(&self) {
+    fn render(&mut self) {
         term::delete_line();
-        print!("\r{}frame{} {}", self.color, Color::Reset, self.text,);
+        print!(
+            "\r{}{}{} {}",
+            self.color,
+            self.animation.next().unwrap_or_default(),
+            Color::Reset,
+            self.text,
+        );
         term::flush();
     }
 }
@@ -56,6 +67,7 @@ impl From<Update> for Renderer {
         Self {
             text: update.text.unwrap_or_default(),
             color: update.color.unwrap_or_default(),
+            animation: update.animation.unwrap_or_default(),
         }
     }
 }
@@ -69,4 +81,5 @@ pub(crate) enum Command {
 pub(crate) struct Update {
     pub(crate) text: Option<String>,
     pub(crate) color: Option<Color>,
+    pub(crate) animation: Option<Animation>,
 }
