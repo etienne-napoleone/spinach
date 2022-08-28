@@ -3,6 +3,7 @@ use std::rc::Rc;
 use std::sync::mpsc::{channel, Sender};
 use std::thread::{self, JoinHandle};
 
+use crate::color::Color;
 use crate::renderer::{Command, Renderer, Update};
 
 #[derive(Clone, Default)]
@@ -21,8 +22,9 @@ impl Spinner {
         self
     }
 
-    pub fn color(&self) -> &Self {
-        todo!()
+    pub fn color<C: Into<Color>>(&self, color: C) -> &Self {
+        self.update.borrow_mut().color = Some(color.into());
+        self
     }
 
     pub fn animation(&self) -> &Self {

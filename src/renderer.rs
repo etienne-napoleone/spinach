@@ -2,11 +2,13 @@ use std::sync::mpsc::Receiver;
 use std::thread;
 use std::time::Duration;
 
+use crate::color::Color;
 use crate::term;
 
 #[derive(Default)]
 pub(crate) struct Renderer {
     text: String,
+    color: Color,
 }
 
 impl Renderer {
@@ -31,6 +33,9 @@ impl Renderer {
         if let Some(text) = update.text {
             self.text = text;
         }
+        if let Some(color) = update.color {
+            self.color = color;
+        }
     }
 
     fn stop(&mut self, update: Update) {
@@ -41,7 +46,7 @@ impl Renderer {
 
     fn render(&self) {
         term::delete_line();
-        print!("\rcolor/frame/color {}", self.text);
+        print!("\r{}frame{} {}", self.color, Color::Reset, self.text,);
         term::flush();
     }
 }
@@ -50,6 +55,7 @@ impl From<Update> for Renderer {
     fn from(update: Update) -> Self {
         Self {
             text: update.text.unwrap_or_default(),
+            color: update.color.unwrap_or_default(),
         }
     }
 }
@@ -62,4 +68,5 @@ pub(crate) enum Command {
 #[derive(Clone, Default)]
 pub(crate) struct Update {
     pub(crate) text: Option<String>,
+    pub(crate) color: Option<Color>,
 }
