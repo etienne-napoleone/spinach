@@ -40,11 +40,11 @@ pub(crate) fn hide_cursor() {
 /// # Examples
 ///
 /// ```
-/// use spinach;
+/// use spinach::{Spinner, show_cursor};
 ///
-/// let s = spinach::Spinach::new("Cutting spinaches");
-/// // somehow `s` is droped
-/// spinach::term::show_cursor();
+/// let spinner = Spinner::new().text("Loading...").start();
+/// // Somehow `spinner` is dropped
+/// show_cursor();
 /// ```
 pub fn show_cursor() {
     print!("\x1b[?25h");

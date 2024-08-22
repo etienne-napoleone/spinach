@@ -7,6 +7,18 @@ use crate::state::{State, Update};
 use crate::term;
 
 /// A Spinach spinner
+///
+/// Represents a spinner that can be used to show progress or activity.
+///
+/// # Examples
+///
+/// ```
+/// use spinach::Spinner;
+///
+/// let spinner = Spinner::new().text("Loading...").start();
+/// // Perform some tasks
+/// spinner.text("gg!").success();
+/// ```
 #[derive(Debug, Default, Clone)]
 pub struct Spinner<S> {
     update: RefCell<Update>,
@@ -26,24 +38,56 @@ pub struct Running {
 
 impl<S> Spinner<S> {
     /// Sets the color of the spinner.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::{Spinner, Color};
+    ///
+    /// let spinner = Spinner::new().color(Color::Blue).start();
+    /// ```
     pub fn color(&self, color: term::Color) -> &Self {
         self.update.borrow_mut().color = Some(color);
         self
     }
 
     /// Sets the text displayed alongside the spinner.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("workin'...").start();
+    /// ```
     pub fn text(&self, text: &str) -> &Self {
         self.update.borrow_mut().text = Some(text.to_string());
         self
     }
 
     /// Sets the symbols used for the spinner animation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().symbols(vec!["◐", "◓", "◑", "◒"]).start();
+    /// ```
     pub fn symbols(&self, symbols: Vec<&'static str>) -> &Self {
         self.update.borrow_mut().symbols = Some(symbols);
         self
     }
 
     /// Sets the duration of each frame in the spinner animation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().frames_duration(40).start();
+    /// ```
     pub fn frames_duration(&self, ms: u64) -> &Self {
         self.update.borrow_mut().frames_duration_ms = Some(ms);
         self
@@ -52,6 +96,14 @@ impl<S> Spinner<S> {
 
 impl Spinner<Stopped> {
     /// Creates a new spinner.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("let's go...").start();
+    /// ```
     #[must_use]
     pub fn new() -> Self {
         Spinner {
@@ -61,6 +113,14 @@ impl Spinner<Stopped> {
     }
 
     /// Starts the spinner.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("let's go...").start();
+    /// ```
     pub fn start(&self) -> Spinner<Running> {
         term::hide_cursor();
         let (sender, receiver) = channel::<Update>();
@@ -109,33 +169,86 @@ impl Spinner<Running> {
     }
 
     /// Updates the spinner with the current update state.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// // Perform some tasks
+    /// spinner.text("Doing something else...").update();
+    /// ```
     pub fn update(&self) -> &Self {
         _ = self.state.sender.send(self.update.borrow().clone());
         self
     }
 
     /// Stops the spinner.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// // Perform some tasks
+    /// spinner.text("done!").stop();
+    /// ```
     pub fn stop(&self) {
         self.update.borrow_mut().stop = true;
         self.update();
         self.join();
     }
 
-    /// Stops the spinner with a success indication.
+    /// Stops the spinner with a pre-configured success indication.
+    /// Sets the symbol and color.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// // Perform some task that succeeds
+    /// spinner.text("done!").success();
+    /// ```
     pub fn success(&self) {
         self.update.borrow_mut().color = Some(term::Color::Green);
         self.update.borrow_mut().symbols = Some(vec!["✔"]);
         self.stop();
     }
 
-    /// Stops the spinner with a failure indication.
+    /// Stops the spinner with a pre-configured failure indication.
+    /// Sets the symbol and color.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// // Perform some task that fails
+    /// spinner.text("oops").failure();
+    /// ```
     pub fn failure(&self) {
         self.update.borrow_mut().color = Some(term::Color::Red);
         self.update.borrow_mut().symbols = Some(vec!["✖"]);
         self.stop();
     }
 
-    /// Stops the spinner with a warning indication.
+    /// Stops the spinner with a pre-configured warning indication.
+    /// Sets the symbol and color.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// // Perform some task with unexpected results
+    /// spinner.text("wait, what?").warn();
+    /// ```
     pub fn warn(&self) {
         self.update.borrow_mut().color = Some(term::Color::Yellow);
         self.update.borrow_mut().symbols = Some(vec!["⚠"]);
