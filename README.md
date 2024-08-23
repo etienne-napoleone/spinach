@@ -32,7 +32,7 @@ fn main() {
     // Cut spinaches
     s.text("Cutting tomatoes...").update();
     // Cut tomatoes
-    s.text("Vegetables cut").symbols(vec!["🔪"]).stop();
+    s.text("Vegetables cut").symbol("🔪").stop();
 }
 ```
 
@@ -97,7 +97,7 @@ s.text("notice").stop();
 
 // Stop current spinner (sends update at the same time)
 s.stop(); // freeze
-s.text("spinach'd").symbols(vec!["🥬"]).stop(); // stop with the text "spinach'd" and a vegetable as the spinner
+s.text("spinach'd").symbol("🥬").stop(); // stop with the text "spinach'd" and a vegetable as the spinner
 ```
 
 ## FAQ
