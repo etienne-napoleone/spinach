@@ -42,7 +42,7 @@ pub(crate) fn hide_cursor() {
 /// ```
 /// use spinach::{Spinner, show_cursor};
 ///
-/// let spinner = Spinner::new().text("Loading...").start();
+/// let spinner = Spinner::new("Loading...").start();
 /// // Somehow `spinner` is dropped
 /// show_cursor();
 /// ```
