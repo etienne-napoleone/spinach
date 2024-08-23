@@ -79,6 +79,21 @@ impl<S> Spinner<S> {
         self
     }
 
+    /// Sets a single symbol for the spinner animation.
+    /// This is useful when you want to set a final symbol, for example.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use spinach::Spinner;
+    ///
+    /// let spinner = Spinner::new("workin'...").start().text("done!").symbol("✔").stop();
+    /// ```
+    pub fn symbol(&self, symbol: &'static str) -> &Self {
+        self.update.borrow_mut().symbols = Some(vec![symbol]);
+        self
+    }
+
     /// Sets the duration of each frame in the spinner animation.
     ///
     /// # Examples

@@ -9,17 +9,20 @@ fn main() {
         .color(Green)
         .frames_duration(30)
         .start();
+
     sleep(Duration::from_secs(1));
     spinner.text("Cutting tomatoes").update();
+
     sleep(Duration::from_secs(1));
-    spinner.text("Vegetables cut").symbols(vec!["🔪"]).stop();
+    spinner.text("Vegetables cut").symbol("🔪").stop();
 
     let spinner = Spinner::new("Cooking vegetables")
         .color(Green)
         .frames_duration(30)
         .start();
+
     sleep(Duration::from_secs(1));
-    spinner.text("Vegetables cooked").symbols(vec!["🍲"]).stop();
+    spinner.text("Vegetables cooked").symbol("🍲").stop();
 
     sleep(Duration::from_secs(1));
 }
