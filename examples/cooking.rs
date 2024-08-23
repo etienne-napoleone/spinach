@@ -5,9 +5,8 @@ use spinach::Color::Green;
 use spinach::Spinner;
 
 fn main() {
-    let spinner = Spinner::new()
+    let spinner = Spinner::new("Cutting spinaches")
         .color(Green)
-        .text("Cutting spinaches")
         .frames_duration(30)
         .start();
     sleep(Duration::from_secs(1));
@@ -15,9 +14,8 @@ fn main() {
     sleep(Duration::from_secs(1));
     spinner.text("Vegetables cut").symbols(vec!["🔪"]).stop();
 
-    let spinner = Spinner::new()
+    let spinner = Spinner::new("Cooking vegetables")
         .color(Green)
-        .text("Cooking vegetables")
         .frames_duration(30)
         .start();
     sleep(Duration::from_secs(1));

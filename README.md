@@ -28,7 +28,7 @@ Basic example.
 use spinach::Spinner;
 
 fn main() {
-    let s = Spinner::new().text("Cutting spinaches...").start();
+    let s = Spinner::new("Cutting spinaches...").start();
     // Cut spinaches
     s.text("Cutting tomatoes...").update();
     // Cut tomatoes
@@ -42,12 +42,11 @@ fn main() {
 use spinach::{Color, Spinner};
 
 // With custom text
-let s = Spinner::new().text("workin'...").start();
+let s = Spinner::new("workin'...").start();
 
 // With custom text, spinner, spinner speed and spinner color
 let symbols = vec!["▮","▯"];
-let s = Spinner::new()
-    .text("blip... blop...")
+let s = Spinner::new("blip... blop...")
     .color(Color::Red)
     .symbols(symbols)
     .frames_duration(80)
@@ -59,7 +58,7 @@ let s = Spinner::new()
 ```rust
 use spinach::{Color, Spinner};
 
-let s = Spinner::new().text("workin'...").start();
+let s = Spinner::new("workin'...").start();
 
 // Updating text
 s.text("new text").update();
@@ -82,18 +81,18 @@ s.text("new text").color(Color::Red);
 ```rust
 use spinach::{Color, Spinner};
 
-let s = Spinner::new().text("workin'...").start();
+let s = Spinner::new("workin'...").start();
 
-// Stop with final `✔` frame, green color and optional text change.
+// Stop with final `✔` frame and green color.
 s.text("gg!").success();
 
-// Stop with final `✖` frame, red color and optional text change.
+// Stop with final `✖` frame and red color.
 s.text("ups").failure();
 
-// Stop with final `⚠` frame, yellow color and optional text change.
+// Stop with final `⚠` frame and yellow color.
 s.text("something may have happened?").warn();
 
-// Stop with final `ℹ` frame, blue color and optional text change.
+// Stop with final `ℹ` frame and blue color.
 s.text("notice").stop();
 
 // Stop current spinner (sends update at the same time)
@@ -119,7 +118,7 @@ fn main() {
     })
     .expect("Error setting Ctrl-C handler");
 
-    let s = Spinner::new().text("workin'...").start();
+    let s = Spinner::new("workin'...").start();
     // ...
 ```
 

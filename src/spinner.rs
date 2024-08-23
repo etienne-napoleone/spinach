@@ -15,7 +15,7 @@ use crate::term;
 /// ```
 /// use spinach::Spinner;
 ///
-/// let spinner = Spinner::new().text("Loading...").start();
+/// let spinner = Spinner::new("Loading...").start();
 /// // Perform some tasks
 /// spinner.text("gg!").success();
 /// ```
@@ -44,7 +44,7 @@ impl<S> Spinner<S> {
     /// ```
     /// use spinach::{Spinner, Color};
     ///
-    /// let spinner = Spinner::new().color(Color::Blue).start();
+    /// let spinner = Spinner::new("workin'...").color(Color::Blue).start();
     /// ```
     pub fn color(&self, color: term::Color) -> &Self {
         self.update.borrow_mut().color = Some(color);
@@ -58,7 +58,7 @@ impl<S> Spinner<S> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("workin'...").start();
+    /// let spinner = Spinner::new("workin'...").start();
     /// ```
     pub fn text(&self, text: &str) -> &Self {
         self.update.borrow_mut().text = Some(text.to_string());
@@ -72,7 +72,7 @@ impl<S> Spinner<S> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().symbols(vec!["◐", "◓", "◑", "◒"]).start();
+    /// let spinner = Spinner::new("workin'...").symbols(vec!["◐", "◓", "◑", "◒"]).start();
     /// ```
     pub fn symbols(&self, symbols: Vec<&'static str>) -> &Self {
         self.update.borrow_mut().symbols = Some(symbols);
@@ -86,7 +86,7 @@ impl<S> Spinner<S> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().frames_duration(40).start();
+    /// let spinner = Spinner::new("workin'...").frames_duration(40).start();
     /// ```
     pub fn frames_duration(&self, ms: u64) -> &Self {
         self.update.borrow_mut().frames_duration_ms = Some(ms);
@@ -102,12 +102,12 @@ impl Spinner<Stopped> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("let's go...").start();
+    /// let spinner = Spinner::new("let's go...").start();
     /// ```
     #[must_use]
-    pub fn new() -> Self {
+    pub fn new(text: &str) -> Self {
         Spinner {
-            update: RefCell::new(Update::default()),
+            update: RefCell::new(Update::new(text)),
             state: Stopped,
         }
     }
@@ -119,7 +119,7 @@ impl Spinner<Stopped> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("let's go...").start();
+    /// let spinner = Spinner::new("let's go...").start();
     /// ```
     pub fn start(&self) -> Spinner<Running> {
         term::hide_cursor();
@@ -175,7 +175,7 @@ impl Spinner<Running> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// let spinner = Spinner::new("Doing something...").start();
     /// // Perform some tasks
     /// spinner.text("Doing something else...").update();
     /// ```
@@ -191,7 +191,7 @@ impl Spinner<Running> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// let spinner = Spinner::new("Doing something...").start();
     /// // Perform some tasks
     /// spinner.text("done!").stop();
     /// ```
@@ -209,7 +209,7 @@ impl Spinner<Running> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// let spinner = Spinner::new("Doing something...").start();
     /// // Perform some task that succeeds
     /// spinner.text("done!").success();
     /// ```
@@ -227,7 +227,7 @@ impl Spinner<Running> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// let spinner = Spinner::new("Doing something...").start();
     /// // Perform some task that fails
     /// spinner.text("oops").failure();
     /// ```
@@ -245,7 +245,7 @@ impl Spinner<Running> {
     /// ```
     /// use spinach::Spinner;
     ///
-    /// let spinner = Spinner::new().text("Doing something...").start();
+    /// let spinner = Spinner::new("Doing something...").start();
     /// // Perform some task with unexpected results
     /// spinner.text("wait, what?").warn();
     /// ```

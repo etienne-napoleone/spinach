@@ -67,3 +67,12 @@ pub struct Update {
     /// Optional new frame duration in milliseconds.
     pub frames_duration_ms: Option<u64>,
 }
+
+impl Update {
+    pub fn new(text: &str) -> Self {
+        Self {
+            text: Some(text.to_owned()),
+            ..Self::default()
+        }
+    }
+}
