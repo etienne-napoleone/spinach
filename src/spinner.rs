@@ -36,6 +36,12 @@ pub struct Running {
     handle: RefCell<Option<JoinHandle<()>>>,
 }
 
+/// Represents a spinner that is currently running.
+pub type RunningSpinner = Spinner<Running>;
+
+/// Represents a spinner that is currently stopped.
+pub type StoppedSpinner = Spinner<Stopped>;
+
 impl<S> Spinner<S> {
     /// Sets the color of the spinner.
     ///
