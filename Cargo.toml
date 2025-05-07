@@ -1,13 +1,13 @@
 [package]
 name = "spinach"
-version = "3.0.0"
+version = "3.1.0"
 authors = ["Etienne Napoleone <etienne.napoleone@gmail.com>"]
 edition = "2021"
 description = "Practical spinner for Rust"
 documentation = "https://docs.rs/spinach"
 readme = "README.md"
 repository = "https://github.com/etienne-napoleone/spinach"
-license = "GPL-3.0-or-later"
+license = "MIT"
 keywords = ["spinner", "terminal-ui", "loader", "cli", "terminal"]
 categories = ["command-line-interface"]
 exclude = ["assets/"]
