@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 use std::sync::mpsc::{channel, Sender, TryRecvError};
 use std::thread::{sleep, spawn, JoinHandle};
 use std::time::Duration;
@@ -26,15 +27,21 @@ pub struct Spinner<S> {
 }
 
 /// Represents the stopped state of a spinner.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Stopped;
 
 /// Represents the running state of a spinner.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Running {
     sender: Sender<Update>,
-    handle: RefCell<Option<JoinHandle<()>>>,
+    handle: Rc<RefCell<Option<JoinHandle<()>>>>,
 }
+
+/// Represents a spinner that is currently running.
+pub type RunningSpinner = Spinner<Running>;
+
+/// Represents a spinner that is currently stopped.
+pub type StoppedSpinner = Spinner<Stopped>;
 
 impl<S> Spinner<S> {
     /// Sets the color of the spinner.
@@ -167,7 +174,7 @@ impl Spinner<Stopped> {
             term::new_line();
             term::show_cursor();
         })));
-
+        let handle = Rc::new(handle);
         Spinner {
             update: RefCell::new(Update::default()),
             state: Running { sender, handle },
