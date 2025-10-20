@@ -74,7 +74,7 @@ s.symbols(vec!["◐", "◓", "◑", "◒"]).update();
 s.frames_duration(80).update();
 
 // Updating multiple at once
-s.text("new text").color(Color::Red);
+s.text("new text").color(Color::Red).update();
 ```
 
 ### Stopping
