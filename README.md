@@ -28,11 +28,12 @@ Basic example.
 use spinach::Spinner;
 
 fn main() {
+	// Cut spinaches
     let s = Spinner::new("Cutting spinaches...").start();
-    // Cut spinaches
+	// Cut tomatoes
     s.text("Cutting tomatoes...").update();
-    // Cut tomatoes
-    s.text("Vegetables cut").symbol("🔪").stop();
+	// We're done!
+	s.text("Vegetables cut").symbol("🔪").stop();
 }
 ```
 
