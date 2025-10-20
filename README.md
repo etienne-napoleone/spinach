@@ -93,7 +93,7 @@ s.text("ups").failure();
 // Stop with final `⚠` frame and yellow color.
 s.text("something may have happened?").warn();
 
-// Stop with final `ℹ` frame and blue color.
+// Stop with without further modification (outside of chained updates).
 s.text("notice").stop();
 
 // Stop current spinner (sends update at the same time)
