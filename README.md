@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/crates/l/spinach)](LICENSE)
 [![CI](https://github.com/etienne-napoleone/spinach/actions/workflows/ci.yml/badge.svg)](https://github.com/etienne-napoleone/spinach/actions/workflows/ci.yml)
 
-> Practical spinner for Rust — `v3` now with method chaining
+> Practical no dependency spinner for Rust — `v3` now with method chaining
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/etienne-napoleone/spinach/main/assets/screenshot.gif" width="550px" height="399px">
