@@ -20,7 +20,7 @@ use crate::term;
 /// // Perform some tasks
 /// spinner.text("gg!").success();
 /// ```
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Clone)]
 pub struct Spinner<S> {
     update: RefCell<Update>,
     state: S,
