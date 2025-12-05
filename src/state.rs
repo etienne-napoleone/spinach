@@ -46,7 +46,7 @@ impl Default for State {
     fn default() -> Self {
         Self {
             text: String::new(),
-            color: term::Color::Cyan,
+            color: term::Color::default(),
             symbols: vec!["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
             frames_duration_ms: 65,
         }

@@ -1,7 +1,7 @@
 use std::io::{stdout, Write};
 
 /// Spinach supported color enum.
-#[derive(Clone, Debug)]
+#[derive(Clone, Default, Debug)]
 pub enum Color {
     Ignore,
     Reset,
@@ -11,14 +11,9 @@ pub enum Color {
     Yellow,
     Blue,
     Magenta,
+    #[default]
     Cyan,
     White,
-}
-
-impl Default for Color {
-    fn default() -> Self {
-        Self::Cyan
-    }
 }
 
 pub(crate) fn flush() {
