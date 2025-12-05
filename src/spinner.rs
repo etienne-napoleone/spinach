@@ -208,6 +208,10 @@ impl Spinner<Running> {
 
     /// Stops the spinner.
     ///
+    /// Ideally should consume `self` but to keep a nice chaining API,
+    /// it won't. Keep in mind that there's nothing to do with a
+    /// spinner after it's stopped.
+    ///
     /// # Examples
     ///
     /// ```
@@ -225,6 +229,10 @@ impl Spinner<Running> {
 
     /// Stops the spinner with a pre-configured success indication.
     /// Sets the symbol and color.
+    ///
+    /// Ideally should consume `self` but to keep a nice chaining API,
+    /// it won't. Keep in mind that there's nothing to do with a
+    /// spinner after it's stopped.
     ///
     /// # Examples
     ///
@@ -244,6 +252,10 @@ impl Spinner<Running> {
     /// Stops the spinner with a pre-configured failure indication.
     /// Sets the symbol and color.
     ///
+    /// Ideally should consume `self` but to keep a nice chaining API,
+    /// it won't. Keep in mind that there's nothing to do with a
+    /// spinner after it's stopped.
+    ///
     /// # Examples
     ///
     /// ```
@@ -261,6 +273,10 @@ impl Spinner<Running> {
 
     /// Stops the spinner with a pre-configured warning indication.
     /// Sets the symbol and color.
+    ///
+    /// Ideally should consume `self` but to keep a nice chaining API,
+    /// it won't. Keep in mind that there's nothing to do with a
+    /// spinner after it's stopped.
     ///
     /// # Examples
     ///
